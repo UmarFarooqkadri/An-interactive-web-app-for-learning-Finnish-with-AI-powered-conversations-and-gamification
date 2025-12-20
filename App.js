@@ -29,12 +29,14 @@ import OnlineUsers from './components/OnlineUsers';
 import InviteNotification from './components/InviteNotification';
 import JitsiMeet from './components/JitsiMeet';
 import FloatingPartnersButton from './components/FloatingPartnersButton';
+import FloatingLeaderboardButton from './components/FloatingLeaderboardButton';
 
 // Screens
 import HomeScreen from './screens/HomeScreen';
 import PracticeScreen from './screens/PracticeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import LeaderboardScreen from './screens/LeaderboardScreen';
+import PodcastScreen from './screens/PodcastScreen';
 
 // Theme
 import { COLORS } from './constants/theme';
@@ -112,6 +114,7 @@ export default function App() {
   const [addScenarioModalVisible, setAddScenarioModalVisible] = useState(false);
   const [addWheelTopicModalVisible, setAddWheelTopicModalVisible] = useState(false);
   const [showOnlineUsers, setShowOnlineUsers] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   // Data
   const [customScenarios, setCustomScenarios] = useState([]);
@@ -403,8 +406,8 @@ export default function App() {
             userStats={userStats}
           />
         );
-      case 'leaderboard':
-        return <LeaderboardScreen currentUser={currentUser} userStats={userStats} />;
+      case 'podcast':
+        return <PodcastScreen onBack={() => setActiveTab('home')} />;
       case 'profile':
         return (
           <ProfileScreen
@@ -430,6 +433,9 @@ export default function App() {
       {/* Bottom Navigation */}
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
 
+      {/* Floating Leaderboard Button */}
+      <FloatingLeaderboardButton onPress={() => setShowLeaderboard(true)} />
+
       {/* Floating Partners Button */}
       {currentUser && (
         <FloatingPartnersButton onPress={() => setShowOnlineUsers(true)} />
@@ -441,6 +447,17 @@ export default function App() {
           currentUser={currentUser}
           onClose={() => setShowOnlineUsers(false)}
         />
+      )}
+
+      {/* Leaderboard Modal */}
+      {showLeaderboard && (
+        <Modal visible={true} animationType="slide">
+          <LeaderboardScreen
+            currentUser={currentUser}
+            userStats={userStats}
+            onClose={() => setShowLeaderboard(false)}
+          />
+        </Modal>
       )}
 
       {/* Modals */}

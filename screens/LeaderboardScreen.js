@@ -36,7 +36,7 @@ const getAvatarColor = (index) => {
   return colors[index % colors.length];
 };
 
-const LeaderboardScreen = ({ currentUser, userStats }) => {
+const LeaderboardScreen = ({ currentUser, userStats, onClose }) => {
   const [timeframe, setTimeframe] = useState('all'); // 'week', 'month', 'all'
   const [loading, setLoading] = useState(true);
   const [leaderboardData, setLeaderboardData] = useState([]);
@@ -73,8 +73,23 @@ const LeaderboardScreen = ({ currentUser, userStats }) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>Leaderboard</Text>
-        <Text style={styles.subtitle}>Compete with Finnish learners worldwide</Text>
+        {onClose ? (
+          <View style={styles.headerWithButton}>
+            <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+              <Text style={styles.closeIcon}>✕</Text>
+            </TouchableOpacity>
+            <View style={styles.headerContent}>
+              <Text style={styles.title}>Leaderboard</Text>
+              <Text style={styles.subtitle}>Compete with Finnish learners worldwide</Text>
+            </View>
+            <View style={styles.placeholder} />
+          </View>
+        ) : (
+          <View>
+            <Text style={styles.title}>Leaderboard</Text>
+            <Text style={styles.subtitle}>Compete with Finnish learners worldwide</Text>
+          </View>
+        )}
       </View>
 
       {/* Your Rank Card */}
@@ -236,6 +251,31 @@ const styles = StyleSheet.create({
     padding: SPACING.lg,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
+  },
+  headerWithButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerContent: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  closeButton: {
+    width: 40,
+    height: 40,
+    borderRadius: RADIUS.md,
+    backgroundColor: COLORS.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  closeIcon: {
+    fontSize: 20,
+    color: COLORS.textPrimary,
+    fontWeight: FONTS.weights.bold,
+  },
+  placeholder: {
+    width: 40,
   },
   title: {
     fontSize: FONTS.sizes.xl,

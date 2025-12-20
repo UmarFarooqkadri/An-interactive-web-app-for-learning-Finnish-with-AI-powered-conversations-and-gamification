@@ -19,7 +19,7 @@ const BottomNav = ({ activeTab, onTabChange }) => {
   const tabs = [
     { id: 'home', icon: '🤖', label: 'Home' },
     { id: 'practice', icon: '🎯', label: 'Practice' },
-    { id: 'leaderboard', icon: '🏆', label: 'Leaderboard' },
+    { id: 'podcast', icon: '🎧', label: 'Podcast' },
     { id: 'profile', icon: '👤', label: 'Profile' },
   ];
 
