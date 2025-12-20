@@ -69,9 +69,9 @@ const OnlineUsers = ({ onClose }) => {
           </View>
         ) : onlineUsers.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>😔</Text>
-            <Text style={styles.emptyMessage}>No one else is online right now.</Text>
-            <Text style={styles.emptySubtext}>Check back later or invite your friends!</Text>
+            <Text style={styles.emptyText}>👋</Text>
+            <Text style={styles.emptyMessage}>Invite your friends or practice with AI</Text>
+            <Text style={styles.emptySubtext}>Share the app with friends to practice together!</Text>
           </View>
         ) : (
           onlineUsers.map((user) => (
