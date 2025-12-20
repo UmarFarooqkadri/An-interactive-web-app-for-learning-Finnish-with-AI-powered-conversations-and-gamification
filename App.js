@@ -399,6 +399,15 @@ export default function App() {
     }
   };
 
+  const handleInviteSent = (roomId, partnerName) => {
+    setVideoCallData({
+      roomId,
+      partnerName
+    });
+    setInVideoCall(true);
+    setShowOnlineUsers(false);
+  };
+
   const clearChat = () => {
     setChatMessages([]);
   };
@@ -494,6 +503,7 @@ export default function App() {
         <OnlineUsers
           currentUser={currentUser}
           onClose={() => setShowOnlineUsers(false)}
+          onInviteSent={handleInviteSent}
         />
       )}
 

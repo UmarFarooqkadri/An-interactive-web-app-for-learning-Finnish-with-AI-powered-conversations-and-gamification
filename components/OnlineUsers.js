@@ -10,7 +10,7 @@ import {
 import { subscribeToOnlineUsers, sendMeetingInvite } from '../services/firestoreService';
 import { useAuth } from '../contexts/AuthContext';
 
-const OnlineUsers = ({ onClose }) => {
+const OnlineUsers = ({ onClose, onInviteSent }) => {
   const { currentUser } = useAuth();
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,13 +31,20 @@ const OnlineUsers = ({ onClose }) => {
     setSendingInvite(user.userId);
     try {
       const fromUserName = currentUser.displayName || currentUser.email.split('@')[0];
-      await sendMeetingInvite(
+      const { inviteId, roomId } = await sendMeetingInvite(
         currentUser.uid,
         fromUserName,
         user.userId,
         user.displayName
       );
+
+      // Call the callback to join the video call
+      if (onInviteSent) {
+        onInviteSent(roomId, user.displayName);
+      }
+
       alert(`Practice invite sent to ${user.displayName}!`);
+      onClose();
     } catch (error) {
       console.error('Error sending invite:', error);
       alert('Failed to send invite. Please try again.');

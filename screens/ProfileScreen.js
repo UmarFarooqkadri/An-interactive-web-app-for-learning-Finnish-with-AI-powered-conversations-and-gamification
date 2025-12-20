@@ -16,7 +16,6 @@ const ProfileScreen = ({
 
   const menuItems = [
     { id: 'customize', icon: '🎨', label: 'Customize Wheel', onPress: onCustomizeWheel },
-    { id: 'podcast', icon: '🎧', label: 'Finnish Podcast', onPress: () => setActiveScreen('podcast') },
     { id: 'about', icon: 'ℹ️', label: 'About', onPress: () => setActiveScreen('about') },
     { id: 'privacy', icon: '🔒', label: 'Privacy Policy', onPress: () => setActiveScreen('privacy') },
     { id: 'settings', icon: '⚙️', label: 'Settings', onPress: () => {} },

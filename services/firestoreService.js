@@ -137,16 +137,17 @@ export const subscribeToOnlineUsers = (callback) => {
 // Meeting Invites
 export const sendMeetingInvite = async (fromUserId, fromUserName, toUserId, toUserName) => {
   try {
+    const roomId = `practice-${Date.now()}`;
     const inviteRef = await addDoc(collection(db, 'meetingInvites'), {
       fromUserId,
       fromUserName,
       toUserId,
       toUserName,
       status: 'pending',
-      roomId: `practice-${Date.now()}`,
+      roomId,
       createdAt: serverTimestamp()
     });
-    return inviteRef.id;
+    return { inviteId: inviteRef.id, roomId };
   } catch (error) {
     console.error('Error sending invite:', error);
     throw error;
