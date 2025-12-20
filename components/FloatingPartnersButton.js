@@ -17,8 +17,9 @@ const FloatingPartnersButton = ({ onPress }) => {
 const styles = StyleSheet.create({
   fab: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
-    bottom: 80, // Above bottom navigation
-    right: 20,
+    top: 20,
+    left: '50%',
+    marginLeft: 5, // Half gap (10/2) = 5
     width: 60,
     height: 60,
     borderRadius: 30,

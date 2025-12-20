@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
   fab: {
     position: Platform.OS === 'web' ? 'fixed' : 'absolute',
     top: 20,
-    right: 20,
+    left: '50%',
+    marginLeft: -65, // Half button width (60/2) + half gap (10/2) = -65
     width: 60,
     height: 60,
     borderRadius: 30,
