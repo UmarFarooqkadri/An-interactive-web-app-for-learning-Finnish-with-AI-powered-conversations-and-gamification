@@ -97,25 +97,6 @@ const AboutScreen = ({ onBack }) => {
         </View>
       </View>
 
-      {/* Technology Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Built With</Text>
-        <View style={styles.techStack}>
-          <View style={styles.techItem}>
-            <Text style={styles.techText}>React Native (Expo)</Text>
-          </View>
-          <View style={styles.techItem}>
-            <Text style={styles.techText}>Firebase</Text>
-          </View>
-          <View style={styles.techItem}>
-            <Text style={styles.techText}>Groq AI</Text>
-          </View>
-          <View style={styles.techItem}>
-            <Text style={styles.techText}>Jitsi Meet</Text>
-          </View>
-        </View>
-      </View>
-
       {/* Contact Section */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Get In Touch</Text>
@@ -127,7 +108,7 @@ const AboutScreen = ({ onBack }) => {
           style={styles.contactButton}
           onPress={() => Linking.openURL('mailto:farooqkadri@gmail.com')}
         >
-          <Text style={styles.contactButtonText}>📧 farooqkadri@gmail.com</Text>
+          <Text style={styles.contactButtonText}>📧 Contact Us</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -254,24 +235,6 @@ const styles = StyleSheet.create({
     fontSize: FONTS.sizes.sm,
     color: COLORS.textSecondary,
     lineHeight: 20,
-  },
-  techStack: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: SPACING.sm,
-  },
-  techItem: {
-    backgroundColor: `${COLORS.primary}15`,
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderRadius: RADIUS.round,
-    borderWidth: 1,
-    borderColor: `${COLORS.primary}30`,
-  },
-  techText: {
-    fontSize: FONTS.sizes.sm,
-    color: COLORS.textPrimary,
-    fontWeight: FONTS.weights.medium,
   },
   contactButton: {
     backgroundColor: COLORS.primary,
