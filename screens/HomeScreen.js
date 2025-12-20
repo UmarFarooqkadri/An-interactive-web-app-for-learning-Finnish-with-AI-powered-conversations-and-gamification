@@ -12,6 +12,17 @@ const HomeScreen = ({ allWheelSegments, onSpinEnd, userStats }) => {
         <Text style={styles.subtitle}>Spin the wheel to start learning!</Text>
       </View>
 
+      {/* Pro Tip Card */}
+      <View style={styles.tipsCard}>
+        <Text style={styles.tipsIcon}>💡</Text>
+        <View style={styles.tipsContent}>
+          <Text style={styles.tipsTitle}>Pro Tip</Text>
+          <Text style={styles.tipsText}>
+            Practice with a partner for better results! Click the floating button to find partners.
+          </Text>
+        </View>
+      </View>
+
       {/* Streak Card */}
       <View style={styles.streakCard}>
         <View style={styles.streakIcon}>
@@ -35,17 +46,6 @@ const HomeScreen = ({ allWheelSegments, onSpinEnd, userStats }) => {
 
         <View style={styles.wheelContainer}>
           <FortuneWheel onSpinEnd={onSpinEnd} segments={allWheelSegments} />
-        </View>
-      </View>
-
-      {/* Tips Card */}
-      <View style={styles.tipsCard}>
-        <Text style={styles.tipsIcon}>💡</Text>
-        <View style={styles.tipsContent}>
-          <Text style={styles.tipsTitle}>Pro Tip</Text>
-          <Text style={styles.tipsText}>
-            Practice with a partner for better results! Check the Partners tab.
-          </Text>
         </View>
       </View>
     </ScrollView>

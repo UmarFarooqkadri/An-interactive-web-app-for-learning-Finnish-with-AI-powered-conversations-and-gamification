@@ -28,6 +28,7 @@ import AddWheelTopicModal from './components/AddWheelTopicModal';
 import OnlineUsers from './components/OnlineUsers';
 import InviteNotification from './components/InviteNotification';
 import JitsiMeet from './components/JitsiMeet';
+import FloatingPartnersButton from './components/FloatingPartnersButton';
 
 // Screens
 import HomeScreen from './screens/HomeScreen';
@@ -428,6 +429,19 @@ export default function App() {
 
       {/* Bottom Navigation */}
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+
+      {/* Floating Partners Button */}
+      {currentUser && (
+        <FloatingPartnersButton onPress={() => setShowOnlineUsers(true)} />
+      )}
+
+      {/* Online Users Modal */}
+      {currentUser && showOnlineUsers && (
+        <OnlineUsers
+          currentUser={currentUser}
+          onClose={() => setShowOnlineUsers(false)}
+        />
+      )}
 
       {/* Modals */}
       <AuthModal

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { COLORS, SPACING, FONTS, RADIUS, SHADOWS } from '../constants/theme';
 import AboutScreen from './AboutScreen';
 import PrivacyPolicyScreen from './PrivacyPolicyScreen';
+import PodcastScreen from './PodcastScreen';
 
 const ProfileScreen = ({
   currentUser,
@@ -11,10 +12,11 @@ const ProfileScreen = ({
   onLogout,
   onCustomizeWheel,
 }) => {
-  const [activeScreen, setActiveScreen] = useState('profile'); // 'profile', 'about', 'privacy'
+  const [activeScreen, setActiveScreen] = useState('profile'); // 'profile', 'about', 'privacy', 'podcast'
 
   const menuItems = [
     { id: 'customize', icon: '🎨', label: 'Customize Wheel', onPress: onCustomizeWheel },
+    { id: 'podcast', icon: '🎧', label: 'Finnish Podcast', onPress: () => setActiveScreen('podcast') },
     { id: 'about', icon: 'ℹ️', label: 'About', onPress: () => setActiveScreen('about') },
     { id: 'privacy', icon: '🔒', label: 'Privacy Policy', onPress: () => setActiveScreen('privacy') },
     { id: 'settings', icon: '⚙️', label: 'Settings', onPress: () => {} },
@@ -28,6 +30,11 @@ const ProfileScreen = ({
   // Show Privacy Policy Screen
   if (activeScreen === 'privacy') {
     return <PrivacyPolicyScreen onBack={() => setActiveScreen('profile')} />;
+  }
+
+  // Show Podcast Screen
+  if (activeScreen === 'podcast') {
+    return <PodcastScreen onBack={() => setActiveScreen('profile')} />;
   }
 
   // Show Profile Screen (default)
