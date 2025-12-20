@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { COLORS, SPACING, FONTS, RADIUS, SHADOWS } from '../constants/theme';
+import AboutScreen from './AboutScreen';
+import PrivacyPolicyScreen from './PrivacyPolicyScreen';
 
 const ProfileScreen = ({
   currentUser,
@@ -9,12 +11,26 @@ const ProfileScreen = ({
   onLogout,
   onCustomizeWheel,
 }) => {
+  const [activeScreen, setActiveScreen] = useState('profile'); // 'profile', 'about', 'privacy'
+
   const menuItems = [
     { id: 'customize', icon: '🎨', label: 'Customize Wheel', onPress: onCustomizeWheel },
+    { id: 'about', icon: 'ℹ️', label: 'About', onPress: () => setActiveScreen('about') },
+    { id: 'privacy', icon: '🔒', label: 'Privacy Policy', onPress: () => setActiveScreen('privacy') },
     { id: 'settings', icon: '⚙️', label: 'Settings', onPress: () => {} },
-    { id: 'progress', icon: '📊', label: 'My Progress', onPress: () => {} },
-    { id: 'about', icon: 'ℹ️', label: 'About', onPress: () => {} },
   ];
+
+  // Show About Screen
+  if (activeScreen === 'about') {
+    return <AboutScreen onBack={() => setActiveScreen('profile')} />;
+  }
+
+  // Show Privacy Policy Screen
+  if (activeScreen === 'privacy') {
+    return <PrivacyPolicyScreen onBack={() => setActiveScreen('profile')} />;
+  }
+
+  // Show Profile Screen (default)
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
