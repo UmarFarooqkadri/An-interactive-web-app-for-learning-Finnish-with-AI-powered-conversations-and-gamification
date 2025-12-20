@@ -21,8 +21,10 @@ const JitsiMeet = ({ roomId, userName, onLeave }) => {
     const initJitsi = () => {
       if (jitsiContainerRef.current && window.JitsiMeetExternalAPI) {
         const domain = 'meet.jit.si';
+        // Use simple alphanumeric room name
+        const simpleRoomId = roomId.replace(/[^a-zA-Z0-9]/g, '');
         const options = {
-          roomName: `LetsFinishThis_${roomId}`,
+          roomName: simpleRoomId,
           width: '100%',
           height: '100%',
           parentNode: jitsiContainerRef.current,
@@ -40,6 +42,8 @@ const JitsiMeet = ({ roomId, userName, onLeave }) => {
             requireDisplayName: false,
             disableInviteFunctions: true,
             disableLobbyPassword: true,
+            enableUserRolesBasedOnToken: false,
+            enableNoisyMicDetection: false,
           },
           interfaceConfigOverwrite: {
             SHOW_JITSI_WATERMARK: false,
