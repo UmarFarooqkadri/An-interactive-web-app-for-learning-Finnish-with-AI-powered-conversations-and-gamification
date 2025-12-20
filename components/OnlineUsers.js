@@ -38,17 +38,13 @@ const OnlineUsers = ({ onClose, onInviteSent }) => {
         user.displayName
       );
 
-      // Call the callback to join the video call
+      // Call the callback to join the video call immediately
       if (onInviteSent) {
         onInviteSent(roomId, user.displayName);
       }
-
-      alert(`Practice invite sent to ${user.displayName}!`);
-      onClose();
     } catch (error) {
       console.error('Error sending invite:', error);
       alert('Failed to send invite. Please try again.');
-    } finally {
       setSendingInvite(null);
     }
   };

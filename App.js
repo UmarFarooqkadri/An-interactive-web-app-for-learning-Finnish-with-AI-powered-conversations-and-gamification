@@ -500,11 +500,13 @@ export default function App() {
 
       {/* Online Users Modal */}
       {currentUser && showOnlineUsers && (
-        <OnlineUsers
-          currentUser={currentUser}
-          onClose={() => setShowOnlineUsers(false)}
-          onInviteSent={handleInviteSent}
-        />
+        <Modal visible={true} animationType="slide">
+          <OnlineUsers
+            currentUser={currentUser}
+            onClose={() => setShowOnlineUsers(false)}
+            onInviteSent={handleInviteSent}
+          />
+        </Modal>
       )}
 
       {/* Leaderboard Modal */}
