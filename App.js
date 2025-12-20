@@ -33,6 +33,7 @@ import OnlineUsers from './components/OnlineUsers';
 import InviteNotification from './components/InviteNotification';
 import JitsiMeet from './components/JitsiMeet';
 import DailyMeet from './components/DailyMeet';
+import WherebyMeet from './components/WherebyMeet';
 import FloatingPartnersButton from './components/FloatingPartnersButton';
 import FloatingLeaderboardButton from './components/FloatingLeaderboardButton';
 
@@ -557,7 +558,7 @@ export default function App() {
       {/* Video Call */}
       {inVideoCall && videoCallData && (
         <Modal visible={true} animationType="slide">
-          <JitsiMeet
+          <WherebyMeet
             roomId={videoCallData.roomId}
             userName={currentUser?.displayName || currentUser?.email.split('@')[0] || 'User'}
             onLeave={handleLeaveVideoCall}
