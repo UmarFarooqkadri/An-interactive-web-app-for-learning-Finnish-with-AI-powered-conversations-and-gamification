@@ -437,9 +437,13 @@ export default function App() {
       <FloatingLeaderboardButton onPress={() => setShowLeaderboard(true)} />
 
       {/* Floating Partners Button */}
-      {currentUser && (
-        <FloatingPartnersButton onPress={() => setShowOnlineUsers(true)} />
-      )}
+      <FloatingPartnersButton onPress={() => {
+        if (currentUser) {
+          setShowOnlineUsers(true);
+        } else {
+          setAuthModalVisible(true);
+        }
+      }} />
 
       {/* Online Users Modal */}
       {currentUser && showOnlineUsers && (

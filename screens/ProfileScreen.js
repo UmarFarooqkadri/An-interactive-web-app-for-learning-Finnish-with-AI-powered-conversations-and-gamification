@@ -120,7 +120,7 @@ const ProfileScreen = ({
 
       {/* App Info */}
       <View style={styles.appInfo}>
-        <Text style={styles.appInfoText}>Finnish Learning App v1.0</Text>
+        <Text style={styles.appInfoText}>Let's Finnish this v1.0</Text>
         <Text style={styles.appInfoSubtext}>Made with ❤️ for learners</Text>
       </View>
     </ScrollView>

@@ -19,7 +19,7 @@ const PrivacyPolicyScreen = ({ onBack }) => {
         <Text style={styles.lastUpdated}>Last Updated: December 20, 2025</Text>
 
         <Text style={styles.intro}>
-          Your privacy is important to us. This Privacy Policy explains how the Finnish Learning App
+          Your privacy is important to us. This Privacy Policy explains how Let's Finnish this
           ("we", "our", or "us") collects, uses, and protects your personal information.
         </Text>
 
@@ -176,7 +176,7 @@ const PrivacyPolicyScreen = ({ onBack }) => {
           <Text style={styles.footerText}>
             By using this app, you agree to this Privacy Policy.
           </Text>
-          <Text style={styles.footerSubtext}>© 2025 Finnish Learning App</Text>
+          <Text style={styles.footerSubtext}>© 2025 Let's Finnish this</Text>
         </View>
       </View>
     </ScrollView>

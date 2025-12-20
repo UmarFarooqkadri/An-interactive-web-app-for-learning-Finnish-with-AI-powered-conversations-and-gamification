@@ -23,7 +23,7 @@ const AboutScreen = ({ onBack }) => {
         <View style={styles.appIcon}>
           <Text style={styles.appIconText}>🇫🇮</Text>
         </View>
-        <Text style={styles.appName}>Finnish Learning App</Text>
+        <Text style={styles.appName}>Let's Finnish this</Text>
         <Text style={styles.version}>Version 1.0</Text>
       </View>
 
