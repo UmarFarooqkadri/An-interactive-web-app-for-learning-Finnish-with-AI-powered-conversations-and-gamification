@@ -557,7 +557,7 @@ export default function App() {
       {/* Video Call */}
       {inVideoCall && videoCallData && (
         <Modal visible={true} animationType="slide">
-          <DailyMeet
+          <JitsiMeet
             roomId={videoCallData.roomId}
             userName={currentUser?.displayName || currentUser?.email.split('@')[0] || 'User'}
             onLeave={handleLeaveVideoCall}
