@@ -9,6 +9,9 @@ import {
   addWheelTopic,
   getUserWheelTopics,
   deleteWheelTopic,
+  addVocabulary,
+  getUserVocabulary,
+  deleteVocabulary,
   setUserOnline,
   setUserOffline,
   subscribeToInvites,
@@ -25,6 +28,7 @@ import BottomNav from './components/BottomNav';
 import AuthModal from './components/AuthModal';
 import AddScenarioModal from './components/AddScenarioModal';
 import AddWheelTopicModal from './components/AddWheelTopicModal';
+import AddVocabularyModal from './components/AddVocabularyModal';
 import OnlineUsers from './components/OnlineUsers';
 import InviteNotification from './components/InviteNotification';
 import JitsiMeet from './components/JitsiMeet';
@@ -113,12 +117,14 @@ export default function App() {
   const [authModalVisible, setAuthModalVisible] = useState(false);
   const [addScenarioModalVisible, setAddScenarioModalVisible] = useState(false);
   const [addWheelTopicModalVisible, setAddWheelTopicModalVisible] = useState(false);
+  const [addVocabularyModalVisible, setAddVocabularyModalVisible] = useState(false);
   const [showOnlineUsers, setShowOnlineUsers] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   // Data
   const [customScenarios, setCustomScenarios] = useState([]);
   const [customWheelTopics, setCustomWheelTopics] = useState([]);
+  const [customVocabulary, setCustomVocabulary] = useState([]);
   const [userStats, setUserStats] = useState(null);
 
   // Chat
@@ -140,18 +146,21 @@ export default function App() {
     const loadUserData = async () => {
       if (currentUser) {
         try {
-          const [scenarios, topics] = await Promise.all([
+          const [scenarios, topics, vocabulary] = await Promise.all([
             getUserScenarios(currentUser.uid),
-            getUserWheelTopics(currentUser.uid)
+            getUserWheelTopics(currentUser.uid),
+            getUserVocabulary(currentUser.uid)
           ]);
           setCustomScenarios(scenarios);
           setCustomWheelTopics(topics);
+          setCustomVocabulary(vocabulary);
         } catch (error) {
           console.error('Error loading user data:', error);
         }
       } else {
         setCustomScenarios([]);
         setCustomWheelTopics([]);
+        setCustomVocabulary([]);
       }
     };
 
@@ -325,6 +334,32 @@ export default function App() {
     }
   };
 
+  // Vocabulary handlers
+  const handleAddVocabulary = async (vocabularyData) => {
+    if (!currentUser) {
+      alert('Please log in to add custom vocabulary');
+      return;
+    }
+
+    try {
+      const newVocabulary = await addVocabulary(currentUser.uid, vocabularyData);
+      setCustomVocabulary(prev => [...prev, newVocabulary]);
+    } catch (error) {
+      console.error('Error adding vocabulary:', error);
+      alert('Failed to add vocabulary. Please try again.');
+    }
+  };
+
+  const handleDeleteVocabulary = async (vocabularyId) => {
+    try {
+      await deleteVocabulary(vocabularyId);
+      setCustomVocabulary(prev => prev.filter(v => v.id !== vocabularyId));
+    } catch (error) {
+      console.error('Error deleting vocabulary:', error);
+      alert('Failed to delete vocabulary. Please try again.');
+    }
+  };
+
   // Invite handlers
   const handleAcceptInvite = async () => {
     if (!pendingInvite) return;
@@ -392,6 +427,15 @@ export default function App() {
             }}
             onDeleteScenario={handleDeleteScenario}
             onClearChat={clearChat}
+            customVocabulary={customVocabulary}
+            onAddVocabulary={() => {
+              if (currentUser) {
+                setAddVocabularyModalVisible(true);
+              } else {
+                setAuthModalVisible(true);
+              }
+            }}
+            onDeleteVocabulary={handleDeleteVocabulary}
           />
         );
       case 'practice':
@@ -480,6 +524,12 @@ export default function App() {
         visible={addWheelTopicModalVisible}
         onClose={() => setAddWheelTopicModalVisible(false)}
         onAdd={handleAddWheelTopic}
+      />
+
+      <AddVocabularyModal
+        visible={addVocabularyModalVisible}
+        onClose={() => setAddVocabularyModalVisible(false)}
+        onAdd={handleAddVocabulary}
       />
 
       {/* Invite Notification */}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { COLORS, SPACING, FONTS, RADIUS, SHADOWS } from '../constants/theme';
+import VocabularySection from '../components/VocabularySection';
 
 const SCENARIOS = [
   {
@@ -44,7 +45,12 @@ const PracticeScreen = ({
   onAddScenario,
   onDeleteScenario,
   onClearChat,
+  customVocabulary,
+  onAddVocabulary,
+  onDeleteVocabulary,
 }) => {
+  const [activeTab, setActiveTab] = useState('scenarios'); // 'scenarios' or 'vocabulary'
+
   const getSuggestions = (messageCount) => {
     if (messageCount === 0) {
       return [
@@ -82,47 +88,82 @@ const PracticeScreen = ({
         </TouchableOpacity>
       </View>
 
-      {/* Scenarios (only show when chat is empty) */}
+      {/* Tabs and Content (only show when chat is empty) */}
       {chatMessages.length === 0 && (
-        <View style={styles.scenariosSection}>
-          <View style={styles.scenariosHeader}>
-            <Text style={styles.scenariosTitle}>Choose a scenario</Text>
-            <TouchableOpacity onPress={onAddScenario} style={styles.addButton}>
-              <Text style={styles.addButtonText}>+ Add</Text>
+        <>
+          {/* Tab Switcher */}
+          <View style={styles.tabsContainer}>
+            <TouchableOpacity
+              style={[styles.tab, activeTab === 'scenarios' && styles.tabActive]}
+              onPress={() => setActiveTab('scenarios')}
+            >
+              <Text style={[styles.tabText, activeTab === 'scenarios' && styles.tabTextActive]}>
+                💬 Scenarios
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.tab, activeTab === 'vocabulary' && styles.tabActive]}
+              onPress={() => setActiveTab('vocabulary')}
+            >
+              <Text style={[styles.tabText, activeTab === 'vocabulary' && styles.tabTextActive]}>
+                📚 Vocabulary
+              </Text>
             </TouchableOpacity>
           </View>
 
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.scenariosScroll}
-          >
-            {allScenarios.map((scenario, index) => (
-              <TouchableOpacity
-                key={scenario.id || index}
-                style={[
-                  styles.scenarioCard,
-                  index >= SCENARIOS.length && styles.customScenarioCard,
-                ]}
-                onPress={() => {
-                  const prompt = scenario.prompt || `I want to practice: ${scenario.title}. ${scenario.description}`;
-                  onSendMessage(prompt);
-                }}
+          {/* Scenarios Tab */}
+          {activeTab === 'scenarios' && (
+            <View style={styles.scenariosSection}>
+              <View style={styles.scenariosHeader}>
+                <Text style={styles.scenariosTitle}>Choose a scenario</Text>
+                <TouchableOpacity onPress={onAddScenario} style={styles.addButton}>
+                  <Text style={styles.addButtonText}>+ Add</Text>
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.scenariosScroll}
               >
-                {index >= SCENARIOS.length && (
+                {allScenarios.map((scenario, index) => (
                   <TouchableOpacity
-                    style={styles.deleteScenarioBtn}
-                    onPress={() => onDeleteScenario(scenario.id)}
+                    key={scenario.id || index}
+                    style={[
+                      styles.scenarioCard,
+                      index >= SCENARIOS.length && styles.customScenarioCard,
+                    ]}
+                    onPress={() => {
+                      const prompt = scenario.prompt || `I want to practice: ${scenario.title}. ${scenario.description}`;
+                      onSendMessage(prompt);
+                    }}
                   >
-                    <Text style={styles.deleteScenarioText}>×</Text>
+                    {index >= SCENARIOS.length && (
+                      <TouchableOpacity
+                        style={styles.deleteScenarioBtn}
+                        onPress={() => onDeleteScenario(scenario.id)}
+                      >
+                        <Text style={styles.deleteScenarioText}>×</Text>
+                      </TouchableOpacity>
+                    )}
+                    <Text style={styles.scenarioIcon}>{scenario.icon}</Text>
+                    <Text style={styles.scenarioTitle}>{scenario.title}</Text>
                   </TouchableOpacity>
-                )}
-                <Text style={styles.scenarioIcon}>{scenario.icon}</Text>
-                <Text style={styles.scenarioTitle}>{scenario.title}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+
+          {/* Vocabulary Tab */}
+          {activeTab === 'vocabulary' && (
+            <VocabularySection
+              customVocabulary={customVocabulary}
+              onAddVocabulary={onAddVocabulary}
+              onDeleteVocabulary={onDeleteVocabulary}
+              currentUser={currentUser}
+            />
+          )}
+        </>
       )}
 
       {/* Messages */}
@@ -249,6 +290,32 @@ const styles = StyleSheet.create({
     fontSize: FONTS.sizes.sm,
     fontWeight: FONTS.weights.bold,
     color: COLORS.textSecondary,
+  },
+  tabsContainer: {
+    flexDirection: 'row',
+    backgroundColor: COLORS.white,
+    paddingHorizontal: SPACING.lg,
+    paddingTop: SPACING.md,
+    gap: SPACING.sm,
+  },
+  tab: {
+    flex: 1,
+    paddingVertical: SPACING.md,
+    borderRadius: RADIUS.md,
+    backgroundColor: COLORS.background,
+    alignItems: 'center',
+  },
+  tabActive: {
+    backgroundColor: COLORS.primary,
+  },
+  tabText: {
+    fontSize: FONTS.sizes.md,
+    fontWeight: FONTS.weights.medium,
+    color: COLORS.textSecondary,
+  },
+  tabTextActive: {
+    color: COLORS.white,
+    fontWeight: FONTS.weights.bold,
   },
   scenariosSection: {
     backgroundColor: COLORS.white,
