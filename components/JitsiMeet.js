@@ -13,16 +13,16 @@ const JitsiMeet = ({ roomId, userName, onLeave }) => {
 
     // Load Jitsi Meet API script
     const script = document.createElement('script');
-    script.src = 'https://8x8.vc/vpaas-magic-cookie-e3c5c7c7e8d54c5ab8f7c1d2e9f6a3b4/external_api.js';
+    script.src = 'https://meet.jit.si/external_api.js';
     script.async = true;
     script.onload = () => initJitsi();
     document.body.appendChild(script);
 
     const initJitsi = () => {
       if (jitsiContainerRef.current && window.JitsiMeetExternalAPI) {
-        const domain = '8x8.vc';
+        const domain = 'meet.jit.si';
         const options = {
-          roomName: `vpaas-magic-cookie-e3c5c7c7e8d54c5ab8f7c1d2e9f6a3b4/${roomId}`,
+          roomName: `LetsFinishThis_${roomId}`,
           width: '100%',
           height: '100%',
           parentNode: jitsiContainerRef.current,
@@ -71,7 +71,7 @@ const JitsiMeet = ({ roomId, userName, onLeave }) => {
         jitsiApiRef.current.dispose();
       }
       // Clean up script
-      const scripts = document.querySelectorAll('script[src*="8x8.vc"]');
+      const scripts = document.querySelectorAll('script[src*="meet.jit.si"]');
       scripts.forEach(s => s.remove());
     };
   }, [roomId, userName, onLeave]);
