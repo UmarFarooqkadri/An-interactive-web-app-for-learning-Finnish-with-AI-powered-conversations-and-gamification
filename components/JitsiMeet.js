@@ -34,6 +34,9 @@ const JitsiMeet = ({ roomId, userName, onLeave }) => {
             startWithVideoMuted: false,
             enableWelcomePage: false,
             prejoinPageEnabled: false,
+            enableLobby: false,
+            requireDisplayName: false,
+            disableInviteFunctions: true,
           },
           interfaceConfigOverwrite: {
             SHOW_JITSI_WATERMARK: false,
