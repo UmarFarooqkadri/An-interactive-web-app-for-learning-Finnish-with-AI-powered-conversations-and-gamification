@@ -371,6 +371,7 @@ export const addVocabulary = async (userId, vocabularyData) => {
       category: vocabularyData.category,
       finnish: vocabularyData.finnish,
       english: vocabularyData.english,
+      phonetic: vocabularyData.phonetic || '',
       example: vocabularyData.example || '',
       createdAt: serverTimestamp()
     });

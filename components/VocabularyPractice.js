@@ -138,6 +138,13 @@ const VocabularyPractice = ({ category, mode, customVocabulary, onClose }) => {
               <Text style={styles.finnishWord}>{currentWord.finnish}</Text>
               <Text style={styles.englishHint}>({currentWord.english})</Text>
 
+              {currentWord.phonetic && (
+                <View style={styles.phoneticBox}>
+                  <Text style={styles.phoneticLabel}>🔊 Sounds like:</Text>
+                  <Text style={styles.phoneticText}>{currentWord.phonetic}</Text>
+                </View>
+              )}
+
               {currentWord.example && (
                 <View style={styles.exampleBox}>
                   <Text style={styles.exampleLabel}>Example:</Text>
@@ -317,6 +324,28 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     marginBottom: SPACING.lg,
     textAlign: 'center',
+  },
+  phoneticBox: {
+    backgroundColor: '#FFF3E0',
+    padding: SPACING.md,
+    borderRadius: RADIUS.md,
+    width: '100%',
+    marginBottom: SPACING.md,
+    borderWidth: 2,
+    borderColor: '#FFB74D',
+  },
+  phoneticLabel: {
+    fontSize: FONTS.sizes.sm,
+    color: '#F57C00',
+    fontWeight: FONTS.weights.bold,
+    marginBottom: SPACING.xs,
+  },
+  phoneticText: {
+    fontSize: FONTS.sizes.xl,
+    color: '#E65100',
+    fontWeight: FONTS.weights.bold,
+    textAlign: 'center',
+    letterSpacing: 1,
   },
   exampleBox: {
     backgroundColor: COLORS.background,

@@ -16,6 +16,7 @@ const AddVocabularyModal = ({ visible, onClose, onAdd }) => {
   const [category, setCategory] = useState('');
   const [finnish, setFinnish] = useState('');
   const [english, setEnglish] = useState('');
+  const [phonetic, setPhonetic] = useState('');
   const [example, setExample] = useState('');
 
   const handleAdd = () => {
@@ -28,6 +29,7 @@ const AddVocabularyModal = ({ visible, onClose, onAdd }) => {
       category: category.trim(),
       finnish: finnish.trim(),
       english: english.trim(),
+      phonetic: phonetic.trim(),
       example: example.trim()
     });
 
@@ -35,6 +37,7 @@ const AddVocabularyModal = ({ visible, onClose, onAdd }) => {
     setCategory('');
     setFinnish('');
     setEnglish('');
+    setPhonetic('');
     setExample('');
     onClose();
   };
@@ -84,6 +87,18 @@ const AddVocabularyModal = ({ visible, onClose, onAdd }) => {
                   placeholder="e.g., Thank you"
                   value={english}
                   onChangeText={setEnglish}
+                  placeholderTextColor={COLORS.textLight}
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Sounds Like (Optional)</Text>
+                <Text style={styles.hint}>Phonetic pronunciation in English</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="e.g., KEE-tos"
+                  value={phonetic}
+                  onChangeText={setPhonetic}
                   placeholderTextColor={COLORS.textLight}
                 />
               </View>
@@ -156,7 +171,13 @@ const styles = StyleSheet.create({
     fontSize: FONTS.sizes.md,
     fontWeight: FONTS.weights.bold,
     color: COLORS.textPrimary,
+    marginBottom: SPACING.xs,
+  },
+  hint: {
+    fontSize: FONTS.sizes.xs,
+    color: COLORS.textSecondary,
     marginBottom: SPACING.sm,
+    fontStyle: 'italic',
   },
   input: {
     backgroundColor: COLORS.background,
