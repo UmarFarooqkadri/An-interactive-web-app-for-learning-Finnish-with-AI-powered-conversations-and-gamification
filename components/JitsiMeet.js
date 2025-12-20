@@ -34,9 +34,12 @@ const JitsiMeet = ({ roomId, userName, onLeave }) => {
             startWithVideoMuted: false,
             enableWelcomePage: false,
             prejoinPageEnabled: false,
-            enableLobby: false,
+            enableLobbyChat: false,
+            autoKnockLobby: false,
+            enableInsecureRoomNameWarning: false,
             requireDisplayName: false,
             disableInviteFunctions: true,
+            disableLobbyPassword: true,
           },
           interfaceConfigOverwrite: {
             SHOW_JITSI_WATERMARK: false,
@@ -61,6 +64,19 @@ const JitsiMeet = ({ roomId, userName, onLeave }) => {
         };
 
         jitsiApiRef.current = new window.JitsiMeetExternalAPI(domain, options);
+
+        // Automatically admit users from lobby
+        jitsiApiRef.current.addEventListener('participantKickedOut', (participant) => {
+          console.log('Participant in lobby:', participant);
+        });
+
+        jitsiApiRef.current.addEventListener('knockingParticipant', (participant) => {
+          console.log('Someone is knocking:', participant);
+          // Automatically admit the participant
+          if (jitsiApiRef.current) {
+            jitsiApiRef.current.executeCommand('answerKnockingParticipant', participant.id, true);
+          }
+        });
 
         // Event listener for when user leaves the call
         jitsiApiRef.current.addEventListener('readyToClose', () => {
