@@ -149,6 +149,11 @@ const VocabularyPractice = ({ category, mode, customVocabulary, onClose }) => {
                 <View style={styles.exampleBox}>
                   <Text style={styles.exampleLabel}>Example:</Text>
                   <Text style={styles.exampleText}>{currentWord.example}</Text>
+                  {currentWord.exampleTranslation && (
+                    <Text style={styles.exampleTranslation}>
+                      ({currentWord.exampleTranslation})
+                    </Text>
+                  )}
                 </View>
               )}
 
@@ -185,6 +190,11 @@ const VocabularyPractice = ({ category, mode, customVocabulary, onClose }) => {
                 <View style={styles.exampleBox}>
                   <Text style={styles.exampleLabel}>Example usage:</Text>
                   <Text style={styles.exampleText}>{currentWord.example}</Text>
+                  {currentWord.exampleTranslation && (
+                    <Text style={styles.exampleTranslation}>
+                      ({currentWord.exampleTranslation})
+                    </Text>
+                  )}
                 </View>
               )}
 
@@ -362,6 +372,12 @@ const styles = StyleSheet.create({
   exampleText: {
     fontSize: FONTS.sizes.md,
     color: COLORS.textPrimary,
+    fontStyle: 'italic',
+    marginBottom: SPACING.xs,
+  },
+  exampleTranslation: {
+    fontSize: FONTS.sizes.sm,
+    color: COLORS.textSecondary,
     fontStyle: 'italic',
   },
   speakButton: {

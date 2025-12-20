@@ -373,6 +373,7 @@ export const addVocabulary = async (userId, vocabularyData) => {
       english: vocabularyData.english,
       phonetic: vocabularyData.phonetic || '',
       example: vocabularyData.example || '',
+      exampleTranslation: vocabularyData.exampleTranslation || '',
       createdAt: serverTimestamp()
     });
     return { id: docRef.id, ...vocabularyData };

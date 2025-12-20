@@ -18,6 +18,7 @@ const AddVocabularyModal = ({ visible, onClose, onAdd }) => {
   const [english, setEnglish] = useState('');
   const [phonetic, setPhonetic] = useState('');
   const [example, setExample] = useState('');
+  const [exampleTranslation, setExampleTranslation] = useState('');
 
   const handleAdd = () => {
     if (!category.trim() || !finnish.trim() || !english.trim()) {
@@ -30,7 +31,8 @@ const AddVocabularyModal = ({ visible, onClose, onAdd }) => {
       finnish: finnish.trim(),
       english: english.trim(),
       phonetic: phonetic.trim(),
-      example: example.trim()
+      example: example.trim(),
+      exampleTranslation: exampleTranslation.trim()
     });
 
     // Reset form
@@ -39,6 +41,7 @@ const AddVocabularyModal = ({ visible, onClose, onAdd }) => {
     setEnglish('');
     setPhonetic('');
     setExample('');
+    setExampleTranslation('');
     onClose();
   };
 
@@ -112,6 +115,20 @@ const AddVocabularyModal = ({ visible, onClose, onAdd }) => {
                   onChangeText={setExample}
                   multiline
                   numberOfLines={3}
+                  placeholderTextColor={COLORS.textLight}
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Example Translation (Optional)</Text>
+                <Text style={styles.hint}>English translation of the example</Text>
+                <TextInput
+                  style={[styles.input, styles.textArea]}
+                  placeholder="e.g., Thank you for the help!"
+                  value={exampleTranslation}
+                  onChangeText={setExampleTranslation}
+                  multiline
+                  numberOfLines={2}
                   placeholderTextColor={COLORS.textLight}
                 />
               </View>
