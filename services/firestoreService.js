@@ -361,3 +361,45 @@ export const getLeaderboard = async (limit = 10) => {
     throw error;
   }
 };
+
+// Vocabulary
+export const addVocabulary = async (userId, vocabularyData) => {
+  try {
+    const docRef = await addDoc(collection(db, 'vocabulary'), {
+      userId,
+      category: vocabularyData.category,
+      finnish: vocabularyData.finnish,
+      english: vocabularyData.english,
+      example: vocabularyData.example || '',
+      createdAt: serverTimestamp()
+    });
+    return { id: docRef.id, ...vocabularyData };
+  } catch (error) {
+    console.error('Error adding vocabulary:', error);
+    throw error;
+  }
+};
+
+export const getUserVocabulary = async (userId) => {
+  try {
+    const q = query(collection(db, 'vocabulary'), where('userId', '==', userId));
+    const querySnapshot = await getDocs(q);
+    const vocabulary = [];
+    querySnapshot.forEach((doc) => {
+      vocabulary.push({ id: doc.id, ...doc.data() });
+    });
+    return vocabulary;
+  } catch (error) {
+    console.error('Error getting vocabulary:', error);
+    throw error;
+  }
+};
+
+export const deleteVocabulary = async (vocabularyId) => {
+  try {
+    await deleteDoc(doc(db, 'vocabulary', vocabularyId));
+  } catch (error) {
+    console.error('Error deleting vocabulary:', error);
+    throw error;
+  }
+};
