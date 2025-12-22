@@ -14,6 +14,7 @@ import {
   deleteVocabulary,
   setUserOnline,
   setUserOffline,
+  updateHeartbeat,
   subscribeToInvites,
   updateInviteStatus,
   initializeUserStats,
@@ -202,11 +203,16 @@ export default function App() {
     }
   }, [currentUser]);
 
-  // Set user presence
+  // Set user presence with heartbeat
   useEffect(() => {
     if (currentUser) {
       const displayName = currentUser.displayName || currentUser.email.split('@')[0];
       setUserOnline(currentUser.uid, displayName, currentUser.email);
+
+      // Update heartbeat every 30 seconds to keep user online
+      const heartbeatInterval = setInterval(() => {
+        updateHeartbeat(currentUser.uid);
+      }, 30000); // 30 seconds
 
       const handleBeforeUnload = () => {
         setUserOffline(currentUser.uid);
@@ -215,6 +221,7 @@ export default function App() {
       window.addEventListener('beforeunload', handleBeforeUnload);
 
       return () => {
+        clearInterval(heartbeatInterval);
         setUserOffline(currentUser.uid);
         window.removeEventListener('beforeunload', handleBeforeUnload);
       };
@@ -555,10 +562,10 @@ export default function App() {
         />
       )}
 
-      {/* Video Call */}
+      {/* Video Call - Using local Jitsi server */}
       {inVideoCall && videoCallData && (
         <Modal visible={true} animationType="slide">
-          <WherebyMeet
+          <JitsiMeet
             roomId={videoCallData.roomId}
             userName={currentUser?.displayName || currentUser?.email.split('@')[0] || 'User'}
             onLeave={handleLeaveVideoCall}

@@ -123,12 +123,33 @@ export const setUserOffline = async (userId) => {
   }
 };
 
+// Update user heartbeat (call this every 30 seconds)
+export const updateHeartbeat = async (userId) => {
+  try {
+    await updateDoc(doc(db, 'presence', userId), {
+      lastSeen: serverTimestamp()
+    });
+  } catch (error) {
+    console.error('Error updating heartbeat:', error);
+  }
+};
+
 export const subscribeToOnlineUsers = (callback) => {
   const q = query(collection(db, 'presence'), where('online', '==', true));
   return onSnapshot(q, (snapshot) => {
     const users = [];
+    const twoMinutesAgo = Date.now() - 2 * 60 * 1000; // 2 minutes ago
+
     snapshot.forEach((doc) => {
-      users.push({ id: doc.id, ...doc.data() });
+      const userData = doc.data();
+      // Only include users who have been active in the last 2 minutes
+      const lastSeenTime = userData.lastSeen?.toMillis() || 0;
+      if (lastSeenTime > twoMinutesAgo) {
+        users.push({ id: doc.id, ...userData });
+      } else {
+        // Mark stale users as offline (fire and forget)
+        setUserOffline(doc.id);
+      }
     });
     callback(users);
   });
