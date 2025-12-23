@@ -104,6 +104,36 @@ const DEFAULT_WHEEL_SEGMENTS = [
 export default function App() {
   const { currentUser, logout } = useAuth();
 
+  // Initialize Google Analytics on web
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      // Only run on web platform
+      const GA_MEASUREMENT_ID = process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID;
+
+      if (GA_MEASUREMENT_ID && !window.gtag) {
+        // Load gtag.js script
+        const script1 = document.createElement('script');
+        script1.async = true;
+        script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+        document.head.appendChild(script1);
+
+        // Initialize gtag
+        const script2 = document.createElement('script');
+        script2.innerHTML = `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA_MEASUREMENT_ID}', {
+            page_path: window.location.pathname,
+          });
+        `;
+        document.head.appendChild(script2);
+
+        console.log('Google Analytics initialized:', GA_MEASUREMENT_ID);
+      }
+    }
+  }, []);
+
   // Navigation
   const [activeTab, setActiveTab] = useState('home');
 
