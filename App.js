@@ -23,6 +23,7 @@ import {
   addXP,
   getUserStats,
 } from './services/firestoreService';
+import { speakFinnish, getTTSUsageStats, stopSpeaking } from './services/ttsService';
 
 // Components
 import BottomNav from './components/BottomNav';
@@ -49,16 +50,6 @@ import PodcastScreen from './screens/PodcastScreen';
 import { COLORS } from './constants/theme';
 
 // Helper functions
-const speakFinnish = (text) => {
-  if (Platform.OS === 'web' && 'speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'fi-FI';
-    utterance.rate = 0.9;
-    window.speechSynthesis.speak(utterance);
-  }
-};
-
 const getSpeechRecognition = () => {
   if (Platform.OS === 'web') {
     return window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -260,7 +251,17 @@ export default function App() {
     setIsChatLoading(false);
 
     const finnishOnly = aiResponse.replace(/\([^)]*\)/g, '').trim();
-    speakFinnish(finnishOnly);
+
+    // Speak with Google TTS (falls back to Web Speech if quota exceeded)
+    const result = await speakFinnish(finnishOnly, {
+      onQuotaExceeded: (stats) => {
+        console.warn('TTS quota exceeded, using fallback voice', stats);
+      }
+    });
+
+    if (!result.success) {
+      console.error('TTS failed:', result.error);
+    }
 
     if (currentUser) {
       await addXP(currentUser.uid, 10, 'message');

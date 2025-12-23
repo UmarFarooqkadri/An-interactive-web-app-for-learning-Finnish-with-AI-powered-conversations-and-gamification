@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { COLORS, SPACING, FONTS, RADIUS, SHADOWS } from '../constants/theme';
 import { VOCABULARY_CATEGORIES, getWordsByCategory } from '../data/vocabularyData';
+import { speakFinnish } from '../services/ttsService';
 
 const VocabularyPractice = ({ category, mode, customVocabulary, onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -48,13 +49,13 @@ const VocabularyPractice = ({ category, mode, customVocabulary, onClose }) => {
     }
   };
 
-  const handleSpeak = () => {
-    if (Platform.OS === 'web' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(currentWord.finnish);
-      utterance.lang = 'fi-FI';
-      utterance.rate = 0.8;
-      window.speechSynthesis.speak(utterance);
+  const handleSpeak = async () => {
+    const result = await speakFinnish(currentWord.finnish, {
+      rate: 0.8
+    });
+
+    if (!result.success) {
+      console.error('TTS failed:', result.error);
     }
   };
 
