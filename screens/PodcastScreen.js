@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform } from '
 import { COLORS, SPACING, FONTS, RADIUS, SHADOWS } from '../constants/theme';
 
 const PodcastScreen = ({ onBack }) => {
-  // Spotify podcast embed URL
-  const spotifyEmbedUrl = 'https://open.spotify.com/embed/show/0Jw48G4H84H8P468Gx3FPT?utm_source=generator&theme=0';
+  // Spotify podcast embed URL - Simo Häyhä "The White Death" Episode
+  const spotifyEmbedUrl = 'https://open.spotify.com/embed/episode/6HRmYRotB9ZyuZiD8mmsaE?utm_source=generator&theme=0';
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
