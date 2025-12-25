@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform } from '
 import { COLORS, SPACING, FONTS, RADIUS, SHADOWS } from '../constants/theme';
 
 const PodcastScreen = ({ onBack }) => {
-  // Spotify podcast embed URL - Simo Häyhä "The White Death" Episode
-  const spotifyEmbedUrl = 'https://open.spotify.com/embed/episode/6HRmYRotB9ZyuZiD8mmsaE?utm_source=generator&theme=0';
+  // Spotify podcast embed URLs
+  const newEpisodeUrl = 'https://open.spotify.com/embed/episode/6HRmYRotB9ZyuZiD8mmsaE?utm_source=generator&theme=0';
+  const originalShowUrl = 'https://open.spotify.com/embed/show/0Jw48G4H84H8P468Gx3FPT?utm_source=generator&theme=0';
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -23,14 +24,13 @@ const PodcastScreen = ({ onBack }) => {
         <Text style={styles.introTitle}>Learn Finnish Through Podcasts</Text>
         <Text style={styles.introText}>
           Listen to authentic Finnish conversations and improve your listening comprehension.
-          Perfect for learning on the go!
         </Text>
       </View>
 
-      {/* Spotify Player Card */}
+      {/* Latest Episode */}
       <View style={styles.playerCard}>
         <View style={styles.playerHeader}>
-          <Text style={styles.playerTitle}>Featured Podcast</Text>
+          <Text style={styles.playerTitle}>Latest Episode</Text>
           <View style={styles.spotifyBadge}>
             <Text style={styles.spotifyText}>🎵 Spotify</Text>
           </View>
@@ -39,9 +39,51 @@ const PodcastScreen = ({ onBack }) => {
         {Platform.OS === 'web' ? (
           <iframe
             style={styles.iframe}
-            src={spotifyEmbedUrl}
+            src={newEpisodeUrl}
             width="100%"
-            height="500"
+            height="352"
+            frameBorder="0"
+            allowFullScreen
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          />
+        ) : (
+          <View style={styles.webOnlyMessage}>
+            <Text style={styles.webOnlyIcon}>🌐</Text>
+            <Text style={styles.webOnlyText}>
+              Podcast player is available on web version only.
+            </Text>
+            <TouchableOpacity
+              style={styles.openSpotifyButton}
+              onPress={() => {
+                // Open in Spotify app or browser
+                const url = 'https://open.spotify.com/episode/6HRmYRotB9ZyuZiD8mmsaE';
+                if (Platform.OS === 'ios' || Platform.OS === 'android') {
+                  Linking.openURL(url);
+                }
+              }}
+            >
+              <Text style={styles.openSpotifyText}>Open in Spotify</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+
+      {/* Full Podcast Show */}
+      <View style={styles.playerCard}>
+        <View style={styles.playerHeader}>
+          <Text style={styles.playerTitle}>All Episodes</Text>
+          <View style={styles.spotifyBadge}>
+            <Text style={styles.spotifyText}>🎵 Spotify</Text>
+          </View>
+        </View>
+
+        {Platform.OS === 'web' ? (
+          <iframe
+            style={styles.iframe}
+            src={originalShowUrl}
+            width="100%"
+            height="352"
             frameBorder="0"
             allowFullScreen
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -204,27 +246,27 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     marginHorizontal: SPACING.lg,
     marginBottom: SPACING.lg,
-    padding: SPACING.xl,
+    padding: SPACING.md,
     borderRadius: RADIUS.lg,
     alignItems: 'center',
     ...SHADOWS.small,
   },
   podcastIcon: {
-    fontSize: 64,
-    marginBottom: SPACING.md,
+    fontSize: 40,
+    marginBottom: SPACING.xs,
   },
   introTitle: {
-    fontSize: FONTS.sizes.xl,
+    fontSize: FONTS.sizes.lg,
     fontWeight: FONTS.weights.bold,
     color: COLORS.textPrimary,
-    marginBottom: SPACING.sm,
+    marginBottom: SPACING.xs,
     textAlign: 'center',
   },
   introText: {
-    fontSize: FONTS.sizes.md,
+    fontSize: FONTS.sizes.sm,
     color: COLORS.textSecondary,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 20,
   },
   playerCard: {
     backgroundColor: COLORS.white,
