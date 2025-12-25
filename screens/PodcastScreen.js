@@ -4,8 +4,8 @@ import { COLORS, SPACING, FONTS, RADIUS, SHADOWS } from '../constants/theme';
 
 const PodcastScreen = ({ onBack }) => {
   // Spotify podcast embed URLs
-  const newEpisodeUrl = 'https://open.spotify.com/embed/episode/6HRmYRotB9ZyuZiD8mmsaE?utm_source=generator&theme=0';
-  const originalShowUrl = 'https://open.spotify.com/embed/show/0Jw48G4H84H8P468Gx3FPT?utm_source=generator&theme=0';
+  const firstEpisodeUrl = 'https://open.spotify.com/embed/episode/3ng2IhRVoItFdhO99O0pw4?utm_source=generator&theme=0';
+  const secondEpisodeUrl = 'https://open.spotify.com/embed/episode/6HRmYRotB9ZyuZiD8mmsaE?utm_source=generator&theme=0';
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -27,10 +27,10 @@ const PodcastScreen = ({ onBack }) => {
         </Text>
       </View>
 
-      {/* Latest Episode */}
+      {/* Episode 1 */}
       <View style={styles.playerCard}>
         <View style={styles.playerHeader}>
-          <Text style={styles.playerTitle}>Latest Episode</Text>
+          <Text style={styles.playerTitle}>Episode 1</Text>
           <View style={styles.spotifyBadge}>
             <Text style={styles.spotifyText}>🎵 Spotify</Text>
           </View>
@@ -39,9 +39,51 @@ const PodcastScreen = ({ onBack }) => {
         {Platform.OS === 'web' ? (
           <iframe
             style={styles.iframe}
-            src={newEpisodeUrl}
+            src={firstEpisodeUrl}
             width="100%"
-            height="352"
+            height="232"
+            frameBorder="0"
+            allowFullScreen
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          />
+        ) : (
+          <View style={styles.webOnlyMessage}>
+            <Text style={styles.webOnlyIcon}>🌐</Text>
+            <Text style={styles.webOnlyText}>
+              Podcast player is available on web version only.
+            </Text>
+            <TouchableOpacity
+              style={styles.openSpotifyButton}
+              onPress={() => {
+                // Open in Spotify app or browser
+                const url = 'https://open.spotify.com/episode/3ng2IhRVoItFdhO99O0pw4';
+                if (Platform.OS === 'ios' || Platform.OS === 'android') {
+                  Linking.openURL(url);
+                }
+              }}
+            >
+              <Text style={styles.openSpotifyText}>Open in Spotify</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+
+      {/* Episode 2 */}
+      <View style={styles.playerCard}>
+        <View style={styles.playerHeader}>
+          <Text style={styles.playerTitle}>Episode 2 - The White Death</Text>
+          <View style={styles.spotifyBadge}>
+            <Text style={styles.spotifyText}>🎵 Spotify</Text>
+          </View>
+        </View>
+
+        {Platform.OS === 'web' ? (
+          <iframe
+            style={styles.iframe}
+            src={secondEpisodeUrl}
+            width="100%"
+            height="232"
             frameBorder="0"
             allowFullScreen
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -58,48 +100,6 @@ const PodcastScreen = ({ onBack }) => {
               onPress={() => {
                 // Open in Spotify app or browser
                 const url = 'https://open.spotify.com/episode/6HRmYRotB9ZyuZiD8mmsaE';
-                if (Platform.OS === 'ios' || Platform.OS === 'android') {
-                  Linking.openURL(url);
-                }
-              }}
-            >
-              <Text style={styles.openSpotifyText}>Open in Spotify</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-
-      {/* Full Podcast Show */}
-      <View style={styles.playerCard}>
-        <View style={styles.playerHeader}>
-          <Text style={styles.playerTitle}>All Episodes</Text>
-          <View style={styles.spotifyBadge}>
-            <Text style={styles.spotifyText}>🎵 Spotify</Text>
-          </View>
-        </View>
-
-        {Platform.OS === 'web' ? (
-          <iframe
-            style={styles.iframe}
-            src={originalShowUrl}
-            width="100%"
-            height="352"
-            frameBorder="0"
-            allowFullScreen
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
-        ) : (
-          <View style={styles.webOnlyMessage}>
-            <Text style={styles.webOnlyIcon}>🌐</Text>
-            <Text style={styles.webOnlyText}>
-              Podcast player is available on web version only.
-            </Text>
-            <TouchableOpacity
-              style={styles.openSpotifyButton}
-              onPress={() => {
-                // Open in Spotify app or browser
-                const url = 'https://open.spotify.com/show/0Jw48G4H84H8P468Gx3FPT';
                 if (Platform.OS === 'ios' || Platform.OS === 'android') {
                   Linking.openURL(url);
                 }
