@@ -134,8 +134,31 @@ export default function App() {
     }
   }, []);
 
-  // Navigation
-  const [activeTab, setActiveTab] = useState('home');
+  // Navigation with URL hash support
+  const [activeTab, setActiveTab] = useState(() => {
+    // Check URL hash on initial load (e.g., #podcasts)
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '');
+      if (hash === 'podcasts' || hash === 'podcast') return 'podcast';
+      if (hash === 'practice') return 'practice';
+      if (hash === 'profile') return 'profile';
+    }
+    return 'home';
+  });
+
+  // Update URL hash when tab changes
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      const hashMap = {
+        'home': '',
+        'practice': 'practice',
+        'podcast': 'podcasts',
+        'profile': 'profile'
+      };
+      window.location.hash = hashMap[tab] || '';
+    }
+  };
 
   // Modals
   const [authModalVisible, setAuthModalVisible] = useState(false);
@@ -500,7 +523,7 @@ export default function App() {
           />
         );
       case 'podcast':
-        return <PodcastScreen onBack={() => setActiveTab('home')} />;
+        return <PodcastScreen onBack={() => handleTabChange('home')} />;
       case 'profile':
         return (
           <ProfileScreen
@@ -524,7 +547,7 @@ export default function App() {
       {renderScreen()}
 
       {/* Bottom Navigation */}
-      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+      <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
 
       {/* Floating Leaderboard Button */}
       <FloatingLeaderboardButton onPress={() => setShowLeaderboard(true)} />
